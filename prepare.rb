@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'fileutils'
 
 if ARGV.size < 1
   STDERR.puts "usage: prepare.rb App.app [team-identifier] [bundle-id-prefix]"
@@ -10,7 +11,7 @@ new_team_identifier = ARGV[1] || "38F637AQG5"
 bundle_id_prefix = ARGV[2] || "nz.net.bdash.Test.3P"
 
 print "Extracting entitlements..."
-File.unlink("entitlements.plist")
+FileUtils.remove_file "entitlements.plist", true
 system("codesign", "-d", "--entitlements=:entitlements.plist", app, :err => :close) or exit 1
 puts " Done!"
 
